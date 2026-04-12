@@ -15,6 +15,7 @@
   <!-- テスティングフレームワークの設定 -->
   <import file="nablarch/test/test-data.xml"/>
   <import file="nablarch/test/test-transaction.xml"/>
+  <import file="override_test.xml"/>
 
   <!--
   マスタデータ復旧設定

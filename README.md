@@ -2,7 +2,12 @@ nablarch-example-batch
 ===========================
 
 Nablarchアプリケーションフレームワークを利用して作成したNablarchバッチExampleアプリケーションです。
-
+> **目的:** Nablarch Testing Framework (NTF) のテストデータファイルを Excel (.xlsx/.xls) から YAML (.yaml) へ移行する PoC。
+>
+> **主な変更内容:**
+> - 全テストデータファイル (`.xls`) を `.yaml` に変換・置き換え
+> - `YamlReader` を追加（NTF の `testDataParser` 経由で YAML を読み込む）
+> - `override_test.xml` で `testDataParser` をオーバーライドし、YAML / Excel 両対応に
 ## 実行手順
 
 ### 1.動作環境
