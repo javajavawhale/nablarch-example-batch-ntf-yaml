@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component-configuration
+    xmlns="http://tis.co.jp/nablarch/component-configuration"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://tis.co.jp/nablarch/component-configuration https://nablarch.github.io/schema/component-configuration.xsd">
+
+  <!--
+  テスト用コンポーネント定義ファイル
+
+  【背景・設計上の課題】
+
+  1. 本番XMLの不完成な設計
+     - import-zip-code-file-data-format.xml（本番）は filePathSetting を定義していない
+     - デフォルト設定の共有 "input" キーに暗黙的に依存している
+     - env.properties では input=file:./work/input（本番ファイル：64件）に設定されている
+
+  2. 非DataFormat版との不統一
+     - import-zip-code-file.xml（非DataFormat版）は filePathSetting を明示的に定義し、
+       専用キー "csv-input" を使用する設計になっている
+     - DataFormat版がこのパターンに統一されていない（実装漏れ）
+
+  3. テスト実行時の問題
+     - テスト実行時、本番のデータファイル（64件）が読み込まれてしまう
+     - テスト用の小さなファイル（2件+header/end）が必要だが、
+       本番XMLが共有キーに依存しているため、プロパティ上書きだけでは解決できない
+
+  【解決方法】
+
+  このテスト用XMLで filePathSetting を上書きし、"input" キーを
+  テスト用のパス（file:./work/test/importZipCode）に切り替える。
+  テスト実行時にこのXMLが優先的に読み込まれ、テストデータが使用される。
+
+  【理想的な最終状態】
+
+  本番の import-zip-code-file-data-format.xml に対して以下の修正が行われれば、
+  このテスト用XMLファイルは不要になる：
+  - filePathSetting を明示定義する
+  - 専用キー（例：csv-input-format）を使用する
+  - 本番・テストで異なるプロパティファイルを配置する
+  - format拡張子（fmt）をXMLで設定する
+
+  ただし、本番コードの修正を避けるため、現在はこのテスト用XMLで対応する。
+  -->
+
+  <!-- 環境設定ファイル -->
+  <import file="batch-component-configuration.xml"/>
+
+  <!-- テスト用ファイルパス設定：本番XMLの不完成な設計をテスト用に補完 -->
+  <component name="filePathSetting" class="nablarch.core.util.FilePathSetting">
+    <property name="basePathSettings">
+      <map>
+        <!-- テスト用ディレクトリに向き替える -->
+        <entry key="input"  value="file:./work/test/importZipCode" />
+        <!-- その他は本番設定と同じ -->
+        <entry key="format" value="file:./src/main/format" />
+        <entry key="output" value="file:./work/output" />
+      </map>
+    </property>
+    <property name="fileExtensions">
+      <map>
+        <!-- format拡張子：本番XMLで定義されていないため、ここで明示 -->
+        <entry key="format" value="fmt" />
+      </map>
+    </property>
+  </component>
+
+</component-configuration>

@@ -1,0 +1,351 @@
+setUpDb:
+  SETUP_TABLE=BUSINESS_DATE:
+    #ListMap
+    - SEGMENT_ID: "01"
+      BIZ_DATE: "2015-04-15 00:00:00"
+
+  SETUP_TABLE=ZIP_CODE_DATA:
+    #ListMap
+    - ZIP_CODE_DATA_ID: ~
+      LOCAL_GOVERNMENT_CODE: ~
+      ZIP_CODE_5DIGIT: ~
+      ZIP_CODE_7DIGIT: ~
+      PREFECTURE_KANA: ~
+      CITY_KANA: ~
+      ADDRESS_KANA: ~
+      PREFECTURE_KANJI: ~
+      CITY_KANJI: ~
+      ADDRESS_KANJI: ~
+      MULTIPLE_ZIP_CODES: ~
+      NUMBERED_EVERY_KOAZA: ~
+      ADDRESS_WITH_CHOME: ~
+      MULTIPLE_ADDRESS: ~
+      UPDATE_DATA: ~
+      UPDATE_DATA_REASON: ~
+
+testNormalEnd:
+  LIST_MAP=testShots:
+    #ListMap
+    - "no": "1"
+      description: "データレコードが正しくデータベースに登録されること。"
+      expectedStatusCode: "0"
+      setUpTable: ""
+      expectedTable: "1"
+      setUpFile: "1"
+      expectedLog: "expectedLog_1"
+      diConfig: "classpath:import-zip-code-file-data-format.xml"
+      requestPath: "ImportZipCodeFileDataFormatAction/ImportZipCodeFileDataFormat"
+      userId: "105"
+
+  SETUP_VARIABLE[1]=work/test/importZipCode/importZipCode_by_format.csv:
+    #RawRows
+    - [ "text-encoding", "UTF-8" ]
+    - [ "record-separator", "CRLF" ]
+    - [
+        "header",
+        "recordKbn",
+        "localGovernmentCode",
+        "zipCode5digit",
+        "zipCode7digit",
+        "prefectureKana",
+        "cityKana",
+        "addressKana",
+        "prefectureKanji",
+        "cityKanji",
+        "addressKanji",
+        "multipleZipCodes",
+        "numberedEveryKoaza",
+        "addressWithChome",
+        "multipleAddress",
+        "updateData",
+        "updateDataReason",
+      ]
+    - [
+        "",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "全角",
+        "全角",
+        "全角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+      ]
+    - [
+        "",
+        "1",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+      ]
+    - [
+        "data",
+        "recordKbn",
+        "localGovernmentCode",
+        "zipCode5digit",
+        "zipCode7digit",
+        "prefectureKana",
+        "cityKana",
+        "addressKana",
+        "prefectureKanji",
+        "cityKanji",
+        "addressKanji",
+        "multipleZipCodes",
+        "numberedEveryKoaza",
+        "addressWithChome",
+        "multipleAddress",
+        "updateData",
+        "updateDataReason",
+      ]
+    - [
+        "",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "全角",
+        "全角",
+        "全角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+      ]
+    - [
+        "",
+        "2",
+        "01101",
+        "060  ",
+        "0600000",
+        "ﾎｯｶｲﾄﾞｳ",
+        "ｻｯﾎﾟﾛｼﾁｭｳｵｳｸ",
+        "ｲｶﾆｹｲｻｲｶﾞﾅｲﾊﾞｱｲ",
+        "北海道",
+        "札幌市中央区",
+        "以下に掲載がない場合",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+      ]
+    - [ "end", "recordKbn", "?filler" ]
+    - [ "", "半角", "半角" ]
+    - [ "", "9", "" ]
+
+  LIST_MAP=expectedLog_1:
+    #ListMap
+    - logLevel: "INFO"
+      message1: "TOTAL COMMIT COUNT = [3]"
+
+  EXPECTED_TABLE[1]=ZIP_CODE_DATA:
+    #ListMap
+    - LOCAL_GOVERNMENT_CODE: "01101"
+      ZIP_CODE_5DIGIT: "060  "
+      ZIP_CODE_7DIGIT: "0600000"
+      PREFECTURE_KANA: "ﾎｯｶｲﾄﾞｳ"
+      CITY_KANA: "ｻｯﾎﾟﾛｼﾁｭｳｵｳｸ"
+      ADDRESS_KANA: "ｲｶﾆｹｲｻｲｶﾞﾅｲﾊﾞｱｲ"
+      PREFECTURE_KANJI: "北海道"
+      CITY_KANJI: "札幌市中央区"
+      ADDRESS_KANJI: "以下に掲載がない場合"
+      MULTIPLE_ZIP_CODES: "0"
+      NUMBERED_EVERY_KOAZA: "0"
+      ADDRESS_WITH_CHOME: "0"
+      MULTIPLE_ADDRESS: "0"
+      UPDATE_DATA: "0"
+      UPDATE_DATA_REASON: "0"
+
+testAbNormalEnd:
+  LIST_MAP=testShots:
+    #ListMap
+    - "no": "1"
+      description: "バリデーションエラーが発生するレコードである場合"
+      expectedStatusCode: "0"
+      setUpTable: ""
+      expectedTable: "1"
+      setUpFile: "1"
+      expectedLog: "expectedLog_1"
+      diConfig: "classpath:import-zip-code-file-data-format.xml"
+      requestPath: "ImportZipCodeFileDataFormatAction/ImportZipCodeFileDataFormat"
+      userId: "105"
+
+  SETUP_VARIABLE[1]=work/test/importZipCode/importZipCode_by_format.csv:
+    #RawRows
+    - [ "text-encoding", "UTF-8" ]
+    - [ "record-separator", "CRLF" ]
+    - [
+        "header",
+        "recordKbn",
+        "localGovernmentCode",
+        "zipCode5digit",
+        "zipCode7digit",
+        "prefectureKana",
+        "cityKana",
+        "addressKana",
+        "prefectureKanji",
+        "cityKanji",
+        "addressKanji",
+        "multipleZipCodes",
+        "numberedEveryKoaza",
+        "addressWithChome",
+        "multipleAddress",
+        "updateData",
+        "updateDataReason",
+      ]
+    - [
+        "",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "全角",
+        "全角",
+        "全角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+      ]
+    - [
+        "",
+        "1",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+      ]
+    - [
+        "data",
+        "recordKbn",
+        "localGovernmentCode",
+        "zipCode5digit",
+        "zipCode7digit",
+        "prefectureKana",
+        "cityKana",
+        "addressKana",
+        "prefectureKanji",
+        "cityKanji",
+        "addressKanji",
+        "multipleZipCodes",
+        "numberedEveryKoaza",
+        "addressWithChome",
+        "multipleAddress",
+        "updateData",
+        "updateDataReason",
+      ]
+    - [
+        "",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "全角",
+        "全角",
+        "全角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+        "半角",
+      ]
+    - [
+        "",
+        "2",
+        "011010000",
+        "060000",
+        "06000000",
+        "ﾎｯｶｲﾄﾞｳ",
+        "ｻｯﾎﾟﾛｼﾁｭｳｵｳｸ",
+        "ｲｶﾆｹｲｻｲｶﾞﾅｲﾊﾞｱｲ",
+        "北海道",
+        "札幌市中央区",
+        "以下に掲載がない場合",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+      ]
+    - [ "end", "recordKbn", "?filler" ]
+    - [ "", "半角", "半角" ]
+    - [ "", "9", "" ]
+
+  LIST_MAP=expectedLog_1:
+    #ListMap
+    - logLevel: "WARN"
+      message1: "validation error has occurred. , error prop=[zipCode7digit],error
+        message=[7文字で入力してください。], line number=[2]"
+    - logLevel: "WARN"
+      message1: "validation error has occurred. , error
+        prop=[localGovernmentCode],error message=[5文字で入力してください。], line
+        number=[2]"
+    - logLevel: "WARN"
+      message1: "validation error has occurred. , error prop=[zipCode5digit],error
+        message=[5文字で入力してください。], line number=[2]"
+
+  EXPECTED_TABLE[1]=ZIP_CODE_DATA:
+    #ListMap
+    - ZIP_CODE_DATA_ID: ~
+      LOCAL_GOVERNMENT_CODE: ~
+      ZIP_CODE_5DIGIT: ~
+      ZIP_CODE_7DIGIT: ~
+      PREFECTURE_KANA: ~
+      CITY_KANA: ~
+      ADDRESS_KANA: ~
+      PREFECTURE_KANJI: ~
+      CITY_KANJI: ~
+      ADDRESS_KANJI: ~
+      MULTIPLE_ZIP_CODES: ~
+      NUMBERED_EVERY_KOAZA: ~
+      ADDRESS_WITH_CHOME: ~
+      MULTIPLE_ADDRESS: ~
+      UPDATE_DATA: ~
+      UPDATE_DATA_REASON: ~
